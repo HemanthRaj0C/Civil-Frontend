@@ -1,4 +1,8 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/traffic";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_BASE) {
+  throw new Error("Missing NEXT_PUBLIC_API_URL. Add it to your frontend .env.local file.");
+}
 
 export interface TrafficInput {
   location: string;
