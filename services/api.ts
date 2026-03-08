@@ -48,3 +48,37 @@ export async function getAllRecords(): Promise<TrafficResult[]> {
   if (!res.ok) throw new Error("Failed to fetch records");
   return res.json();
 }
+
+// Area Analysis API
+
+export interface BoundingBox {
+  north: number;
+  south: number;
+  east: number;
+  west: number;
+}
+
+export interface AreaAnalysisResult {
+  averageSpeed: number;
+  density: number;
+  los: string;
+  debug?: {
+    totalPairs: number;
+    validSegments: number;
+    skippedSegments: number;
+    speeds: number[];
+  };
+}
+
+export async function analyzeAreaTraffic(bounds: BoundingBox): Promise<AreaAnalysisResult> {
+  const res = await fetch(`${API_BASE}/analyze-area`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bounds),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || "Area analysis failed");
+  }
+  return res.json();
+}

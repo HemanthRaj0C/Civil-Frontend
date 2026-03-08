@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Calculator, Activity, BarChart4, ChevronRight } from "lucide-react";
+import { ArrowRight, Calculator, Activity, BarChart4, ChevronRight, Map } from "lucide-react";
 
 export default function Home() {
   const containerVariants = {
@@ -30,6 +30,11 @@ export default function Home() {
       icon: <BarChart4 className="w-6 h-6 text-rose-500" />,
       title: "LOS Grading",
       description: "Automatically determine Level of Service from A (free flow) to F (breakdown).",
+    },
+    {
+      icon: <Map className="w-6 h-6 text-indigo-500" />,
+      title: "Area Map Analysis",
+      description: "Select any area on the map to estimate real-time traffic speed, density, and LOS using Google Maps.",
     },
   ];
 
@@ -69,13 +74,14 @@ export default function Home() {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
           </Link>
-          <a
-            href="#features"
+          <Link
+            href="/area-analysis"
             className="group inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-semibold py-4 px-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition duration-300 w-full sm:w-auto"
           >
-            Learn More
+            <Map className="w-5 h-5 text-blue-500" />
+            <span>Map Analysis</span>
             <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-colors" />
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
 
@@ -87,7 +93,7 @@ export default function Home() {
         viewport={{ once: true, margin: "-100px" }}
         className="mt-32 w-full"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-5xl mx-auto">
           {features.map((feature, i) => (
             <motion.div
               key={i}
