@@ -63,16 +63,17 @@ export default function TrafficMap() {
     } finally {
       setLoading(false);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const onMapLoad = useCallback((map: google.maps.Map) => {
+    // Prevent duplicate DrawingManager
     if (drawingManagerRef.current) return;
 
     const dm = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
       drawingControl: true,
       drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
+        position: google.maps.ControlPosition.TOP_RIGHT,
         drawingModes: [google.maps.drawing.OverlayType.RECTANGLE],
       },
       rectangleOptions: {
@@ -87,8 +88,8 @@ export default function TrafficMap() {
     dm.setMap(map);
     drawingManagerRef.current = dm;
 
-    google.maps.event.addListener(dm, "rectanglecomplete", (rectangle: google.maps.Rectangle) => {
-      handleRectangleComplete(rectangle);
+    google.maps.event.addListener(dm, "rectanglecomplete", (rect: google.maps.Rectangle) => {
+      handleRectangleComplete(rect);
     });
   }, [handleRectangleComplete]);
 
@@ -125,6 +126,7 @@ export default function TrafficMap() {
           options={{
             streetViewControl: false,
             mapTypeControl: true,
+            gestureHandling: "greedy",
           }}
         />
       </div>
